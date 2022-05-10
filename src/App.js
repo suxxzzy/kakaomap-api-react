@@ -1,3 +1,4 @@
+import "./App.css";
 import { useState, useEffect } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
@@ -74,13 +75,13 @@ function App() {
       });
     }
   }, [map]);
-  console.log(pages, pageInfo);
+  console.log(dataList);
   const src = "https://cdn-icons-png.flaticon.com/512/381/381804.png", // 마커이미지의 주소입니다
     size = { width: 30, height: 30 }, // 마커이미지의 크기입니다
     options = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
   const markerImage = { src, size, options };
   return (
-    <>
+    <div className="App">
       <Map // 로드뷰를 표시할 Container
         center={{
           lat: 37.566826,
@@ -110,14 +111,30 @@ function App() {
       <ul className="searchResults">
         {dataList.map((item) => {
           return (
-            <li key={item.id}>
+            <li
+              key={item.id}
+              onMouseOver={() => {
+                console.log("마우스오버");
+                setInfo({
+                  position: {
+                    lat: item.data.y,
+                    lng: item.data.x,
+                  },
+                  content: item.data.place_name,
+                });
+              }}
+              onMouseOut={() => {
+                console.log("마우스아웃");
+                setInfo();
+              }}
+            >
               <div>{item.idx}</div>
               <h5>{item.data.place_name}</h5>
               {item.data.road_address_name ? (
-                <span>{item.data.road_address_name}</span>
+                <div>{item.data.road_address_name}</div>
               ) : null}
-              <span>{item.data.address_name}</span>
-              <span>{item.data.phone}</span>
+              <div>{item.data.address_name}</div>
+              <div>{item.data.phone}</div>
             </li>
           );
         })}
@@ -140,7 +157,7 @@ function App() {
           );
         })}
       </ul>
-    </>
+    </div>
   );
 }
 export default App;

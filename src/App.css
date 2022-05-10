@@ -1,3 +1,14 @@
+.App {
+  display: flex;
+}
+
+ul {
+  border: 1px solid blue;
+}
+
+li:hover {
+  background-color: pink;
+}
 .map {
   text-align: center;
   width: 500px;
